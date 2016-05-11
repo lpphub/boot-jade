@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <property name="LOG_HOME" value="/logs"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <Target>System.out</Target>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %t %-5p [%c:%L] - %m%n</pattern>
+        </encoder>
+    </appender>
+    <!--<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<File>${LOG_HOME}/casefolder-open-api/app.log</File>-->
+        <!--<Encoding>UTF-8</Encoding>-->
+        <!--<encoder>-->
+            <!--<pattern>{yyyy-MM-dd HH:mm:ss} %t %-5p [%c:%L] - %m%n%d</pattern>-->
+        <!--</encoder>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--<fileNamePattern>${LOG_HOME}/casefolder-open-api/app.log.%d{yyyy-MM-dd}</fileNamePattern>-->
+        <!--</rollingPolicy>-->
+    <!--</appender>-->
+    <!--<appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<File>${LOG_HOME}/casefolder-open-api/error.log</File>-->
+        <!--<Encoding>UTF-8</Encoding>-->
+        <!--<encoder>-->
+            <!--<pattern>%d{yyyy-MM-dd HH:mm:ss} %t %-5p [%c:%L] - %m%n</pattern>-->
+        <!--</encoder>-->
+        <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+            <!--<level>ERROR</level>-->
+        <!--</filter>-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--<fileNamePattern>${LOG_HOME}/casefolder-open-api/error.log.%d{yyyy-MM-dd}</fileNamePattern>-->
+        <!--</rollingPolicy>-->
+    <!--</appender>-->
+    <logger name="com.apricotforest" level="INFO"/>
+    <!--<logger name="org.springframework" level="WARN"/>-->
+    <!--<logger name="net.paoding.rose.jade" level="WARN"/>-->
+    <!--<logger name="com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtocol" level="WARN"/>-->
+    <!--<logger name="com.alibaba.dubbo.registry.zookeeper.ZookeeperRegistry" level="WARN"/>-->
+    <!--<logger name="com.alibaba.dubbo.remoting.transport.AbstractClient" level="WARN"/>-->
+    <!--<logger name="com.alibaba.dubbo.config.AbstractConfig" level="WARN"/>-->
+    <!--<logger name="com.alibaba.dubbo.registry.support.AbstractRegistryFactory" level="WARN"/>-->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="FILE"/>-->
+        <!--<appender-ref ref="ERROR_FILE"/>-->
+    </root>
+</configuration>

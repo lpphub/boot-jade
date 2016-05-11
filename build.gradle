@@ -1,0 +1,82 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.4.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'boot-jade'
+    version = '0.0.1-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+    env = project.hasProperty('profile') ? env = project['profile'] : "dev"
+}
+
+repositories {
+    maven {
+        url "http://192.168.10.120:8083/content/repositories/releases/"
+    }
+    maven {
+        url "http://192.168.10.120:8083/content/repositories/snapshots/"
+    }
+    jcenter()
+}
+
+//额外增加source path
+sourceSets {
+    main {
+        resources {
+            srcDir "src/main/profile/${env}"
+        }
+    }
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web:1.3.4.RELEASE')
+    compile('org.springframework.boot:spring-boot-starter-actuator:1.3.4.RELEASE')
+    compile('org.springframework:spring-jdbc:4.2.6.RELEASE')
+    compile('com.apricotforest:apricotforest-jade:1.2.2') {
+        exclude group: 'org.springframework'
+    }
+    compile('com.alibaba:druid:1.0.19')
+    compile('mysql:mysql-connector-java:6.0.2')
+    compile('org.slf4j:slf4j-api:1.7.21')
+    compile('ch.qos.logback:logback-classic:1.1.7')
+    compile('org.slf4j:log4j-over-slf4j:1.7.21')
+    compile('org.slf4j:jcl-over-slf4j:1.7.21')
+
+    compile('com.apricotforest:medical-api:0.1.9')
+    compile('com.alibaba:dubbo:2.5.3') {
+        exclude group: 'org.springframework'
+        exclude module: 'zkclient'
+    }
+    compile('com.101tec:zkclient:0.8') {
+        exclude group: 'org.slf4j'
+        exclude module: 'log4j'
+    }
+
+    testCompile('org.springframework.boot:spring-boot-starter-test:1.3.4.RELEASE')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+/*
+uploadArchive {
+    repository(url: "http://192.168.10.120:8083/content/repositories/releases/") {
+        authentication(userName: "admin", password: "admin123")
+    }
+    snapshotRepository(url: "http://192.168.10.120:8083/content/repositories/snapshots/") {
+        authentication(userName: "admin", password: "admin123")
+    }
+}*/
