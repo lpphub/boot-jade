@@ -1,0 +1,33 @@
+package com.apricotforest.casefolder.config;
+
+import com.apricotforest.casefolder.common.ErrorCode;
+import com.apricotforest.casefolder.common.ResultVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * Spring Boot提供的ErrorController是一种全局性的容错机制。你还可以使用SpringMVC提供的@ControllerAdvice。
+ * 如字面意思，@ControllerAdvice是切面技术的应用，允许你对Controller中抛出的某个或某些异常进行捕获并响应输出.
+ * 使用@ControllerAdvice捕获应用级别的异常，使用web.xml中的error-page配置处理容器级别的报错。假设定义的过滤器抛出的异常，
+ * @ControllerAdvice是无法处理的。改用Spring Boot后，@ControllerAdvice没有捕获的异常，ErrorController会帮你“捡起来”
+ */
+@ControllerAdvice
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public ResponseEntity<ResultVo> handleExceptionResponse(HttpServletRequest req, Throwable ex) {
+        ResultVo res = ResultVo.build().setErrcode(ErrorCode.SERVER_ERROR).setMsg("server_error");
+        LOG.error("url:{}, Server Error:", req.getRequestURI(), ex);
+        return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
